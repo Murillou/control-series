@@ -11,8 +11,11 @@ class SeriesController extends Controller
     public function index(Request $request)
     {
         $series  = Serie::query()->orderBy('name')->get();
+        $successMessage = session('success.message');
 
-        return view('series.index')->with('series', $series);
+        return view('series.index')
+        ->with('series', $series)
+        ->with('successMessage', $successMessage);
     }
 
     public function create()
@@ -23,6 +26,7 @@ class SeriesController extends Controller
     public function store(Request $request)
     {
         Serie::create($request->all());
+        $request->session()->flash('success.message', 'Série adicionada com sucesso.');
 
         return to_route('series.index');
 
@@ -31,6 +35,8 @@ class SeriesController extends Controller
     public function destroy(Request $request)
     {
         Serie::destroy($request->series);
+        $request->session()->flash('success.message', 'Série removida com sucesso');
+
         return to_route('series.index');
     }
 }
