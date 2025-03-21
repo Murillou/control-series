@@ -7,8 +7,16 @@ Route::get('/', function () {
     return redirect('/series');
 });
 
-Route::resource('/series', SeriesController::class)->names([
-    'index' => 'series.index',
-    'create' => 'series.create',
-    'store' => 'series.store'
+Route::resource('/series', SeriesController::class)
+    ->only([
+        'index', 
+        'create', 
+        'store',
+        'destroy'
+    ])
+    ->names([
+        'index' => 'series.index',
+        'create' => 'series.create',
+        'store' => 'series.store',
+        'destroy' => 'series.destroy'
 ]);
