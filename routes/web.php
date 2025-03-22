@@ -8,15 +8,12 @@ Route::get('/', function () {
 });
 
 Route::resource('/series', SeriesController::class)
-    ->only([
-        'index', 
-        'create', 
-        'store',
-        'destroy'
-    ])
+    ->except('show')
     ->names([
         'index' => 'series.index',
         'create' => 'series.create',
         'store' => 'series.store',
+        'edit' => 'series.edit',
+        'update' => 'series.update',
         'destroy' => 'series.destroy'
 ]);
