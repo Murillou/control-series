@@ -23,7 +23,6 @@ class SeriesCreated extends Mailable
         public int $episodes
     )
     {
-        //
     }
 
     /**
@@ -32,7 +31,7 @@ class SeriesCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Series Created',
+            subject: "Série $this->serieName criada",
         );
     }
 
