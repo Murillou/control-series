@@ -34,6 +34,7 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
+     
         $serie = $this->repository->add($request);
         \App\Events\SeriesCreated::dispatch(
             $serie->id,

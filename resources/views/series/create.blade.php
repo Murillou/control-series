@@ -1,5 +1,5 @@
 <x-layout title="Nova Série">
-  <form action="{{ route('series.store') }}" method="post">
+  <form action="{{ route('series.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         
         <div class="row mb-3">
