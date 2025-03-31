@@ -36,6 +36,7 @@ class SeriesController extends Controller
     {
      
         $serie = $this->repository->add($request);
+
         \App\Events\SeriesCreated::dispatch(
             $serie->id,
             $serie->name,
