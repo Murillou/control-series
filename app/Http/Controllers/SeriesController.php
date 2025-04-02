@@ -34,7 +34,7 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
-     
+
         $serie = $this->repository->add($request);
 
         \App\Events\SeriesCreated::dispatch(
@@ -55,7 +55,6 @@ class SeriesController extends Controller
     public function update(Series $series, SeriesFormRequest $request)
     {
         $series->update(['name' => $request->input('name')]);
-
         return to_route('series.index')->with('success.message', "Série {$series->name} foi editada com sucesso.");
 
     }
@@ -64,6 +63,5 @@ class SeriesController extends Controller
     {
         $series->delete();
 
-        return to_route('series.index')->with('success.message', "Série {$series->name} removida com sucesso");
-    }
+        return to_route('series.index')->with('success.message', "Série {$series->name} removida com sucesso"); }
 }
