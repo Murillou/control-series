@@ -16,7 +16,12 @@ class ApiSeriesController extends Controller
 
     public function index(Request $request)
     {
-        return Series::all();
+        $series = Series::paginate(10);
+
+        return response()->json([
+            'message' => 'Lista de séries recuperada com sucesso!',
+            'data' => $series->items()
+        ]);
     }
 
     public function store(SeriesFormRequest $request)
@@ -25,9 +30,14 @@ class ApiSeriesController extends Controller
             ->json($this->seriesRepository->add($request), 201);
     }
 
-    public function show(Series $series)
+    public function show(int $series)
     {
-        return $series;
+        $seriesModel = Series::with('seasons.episodes')->find($series);
+
+        if(!$seriesModel) {
+            return response()->json(['message' => 'Series not found'], 404);
+        }
+        return response()->json(['data' => $seriesModel], 202);
     }
 
     public function update(Series $series, SeriesFormRequest $request)
@@ -35,13 +45,25 @@ class ApiSeriesController extends Controller
         $series->fill($request->all());
         $series->save();
 
-        return $series;
+        return response()->json([
+            'message' => 'Série atualizada com sucesso!',
+            'data' => $series
+        ]);
     }
 
     public function destroy(Series $series)
     {
-        $series->delete();
+        try{
+            $series->delete();
 
-        return response()->noContent();
+            return response()->json([
+                'message' => 'Série removida com sucesso!'
+            ], 200);
+        } catch (\Exception $error) {
+            return response()->json([
+                'message' => 'Erro ao remover a série!',
+                'error' => $error->getMessage()
+            ], 500);
+        }
     }
 }
