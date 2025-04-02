@@ -16,12 +16,16 @@ class ApiSeriesController extends Controller
 
     public function index(Request $request)
     {
-        $series = Series::paginate(10);
+        if (!$request->has('name')) {
 
-        return response()->json([
-            'message' => 'Lista de séries recuperada com sucesso!',
-            'data' => $series->items()
-        ]);
+            $series = Series::paginate(10);
+
+            return response()->json([
+                'message' => 'Lista de séries recuperada com sucesso!',
+                'data' => $series->items()
+            ]);
+        }
+        return Series::whereName($request->name)->get();
     }
 
     public function store(SeriesFormRequest $request)
